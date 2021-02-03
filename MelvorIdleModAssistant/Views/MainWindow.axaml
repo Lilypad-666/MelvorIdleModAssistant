@@ -132,6 +132,7 @@
     <Grid Grid.Column="1"
           Grid.Row="1"
           ColumnDefinitions="*, Auto">
+      <!-- Start of Console Line -->
       <Border Background="#2E2E2E"
         BorderBrush="#696969"
         BorderThickness="1"
@@ -145,20 +146,28 @@
                    Text="{Binding LastConsoleLine}">
         </TextBlock>
       </Border>
-      <!-- Start of Info Button -->
-      <!-- <Border Background="#2E2E2E"
+      <!-- End of Console Line -->
+      
+      <!-- Start of Install Button -->
+      <Border Background="#2E2E2E"
               BorderBrush="#696969"
               BorderThickness="1"
-              Margin="10, 15, 15, 15"
+              Margin="0, 15, 15, 15"
               Grid.Column="1">
         <Button Width="120"
-                Height="40"
+                Height="50"
                 Background="Transparent"
-                Command="{Binding NavigateToInfo}">
-          <TextBlock FontWeight="Light" VerticalAlignment="Center" HorizontalAlignment="Center">Update Mods</TextBlock>
+                Command="{Binding InstallUpdateSelectedMods}">
+          <StackPanel VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center"
+                       Foreground="White">Install/Update</TextBlock>
+            <TextBlock HorizontalAlignment="Center"
+                       Foreground="White">Mods</TextBlock>
+          </StackPanel>
         </Button>
-      </Border> -->
-      <!-- End of Info Button -->
+      </Border>
+      <!-- End of Install Button -->
     </Grid>
     <!-- End of Bottom Right Panel -->
   </Grid>

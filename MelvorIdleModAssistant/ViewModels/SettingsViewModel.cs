@@ -1,6 +1,7 @@
 ﻿using MelvorIdleModAssistant.Models;
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
 
 namespace MelvorIdleModAssistant.ViewModels {
     public class SettingsViewModel : ReactiveObject, IRoutableViewModel {
@@ -19,7 +20,6 @@ namespace MelvorIdleModAssistant.ViewModels {
             this.MainWindowVM = MainWindowVM;
             HostScreen = MainWindowVM;
             settings = SettingsModel.LoadSettings();
-
         }
 
         //Whether the user has accepted the terms
@@ -32,6 +32,14 @@ namespace MelvorIdleModAssistant.ViewModels {
             set
             {
                 settings.AcceptedTerms = value;
+            }
+        }
+
+        public List<string> ModList
+        {
+            get
+            {
+                return settings.InstalledMods;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using MelvorIdleModAssistant.ViewModels;
+﻿using Avalonia.Media;
+using MelvorIdleModAssistant.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -136,7 +137,7 @@ namespace MelvorIdleModAssistant.Models {
         //The last known valid game version
         private string lastValidGameVersion;
         [XmlElement("LastValidGameVersion")]
-        public string LastValidVersion
+        public string LastValidGameVersion
         {
             get
             {
@@ -178,15 +179,59 @@ namespace MelvorIdleModAssistant.Models {
             }
         }
 
+        //Whether the version text is green or red
+        [XmlIgnore]
+        public IBrush GameVersionColor
+        {
+            get
+            {
+                Version modValidVersion = new Version(LastValidGameVersion);
+                if (modValidVersion >= MainWindowViewModel.GameVersion) {
+                    return Brushes.LightGreen;
+                } else {
+                    return Brushes.Red;
+                }
+            }
+        }
+
+        //Whether the mod is currently installed or not
+        private bool installed;
+        [XmlIgnore]
+        public bool Installed
+        {
+            get
+            {
+                return installed;
+            }
+            set
+            {
+                installed = value;
+            }
+        }
+
+        //Gets the text for the install/uninstall button
+        [XmlIgnore]
+        public string InstallButtonText
+        {
+            get
+            {
+                if (Installed) {
+                    return "Uninstall";
+                } else {
+                    return "Install";
+                }
+            }
+        }
+
         public Mod() { }
 
-        public Mod(string Name, string Description, string Author, string Source, ModCategories Category, string LastValidVersion, string MainFile, List<string> ExtraCommands = null) {
+        public Mod(string Name, string Description, string Author, string Source, ModCategories Category, string LastValidGameVersion, string MainFile, List<string> ExtraCommands = null) {
             this.Name = Name;
             this.Description = Description;
             this.Author = Author;
             this.Source = Source;
             this.Category = Category;
-            this.LastValidVersion = LastValidVersion;
+            this.LastValidGameVersion = LastValidGameVersion;
             this.MainFile = MainFile;
 
             if (ExtraCommands == null) {
@@ -195,6 +240,8 @@ namespace MelvorIdleModAssistant.Models {
             else {
                 this.ExtraCommands = ExtraCommands;
             }
+
+            Installed = MainWindowViewModel.settingsVM.ModList.Find((mod) => { return mod == Name; }).Length > 0;
         }
     }
 }

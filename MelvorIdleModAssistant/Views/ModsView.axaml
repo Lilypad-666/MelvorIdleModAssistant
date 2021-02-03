@@ -2,19 +2,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:DataTemplate.Views.ModsView"
              x:Class="MelvorIdleModAssistant.Views.ModsView">
+
   <Grid RowDefinitions="25, Auto"
         Margin="15">
     <Border Background="#2E2E2E"
             BorderBrush="#696969"
             BorderThickness="1"
             Grid.Row="0">
-      <Grid ColumnDefinitions="250, 400, 200"
+      <Grid ColumnDefinitions="20, 300, 850, 250, 100, 100, 100"
             VerticalAlignment="Center">
-        <TextBlock Grid.Column="0"
+        <TextBlock Grid.Column="1"
                    FontSize="12"
                    Margin="10, 0, 0, 0"
                    Text="Name"/>
-        <TextBlock Grid.Column="1"
+        <TextBlock Grid.Column="2"
                    FontSize="12"
                    Margin="10, 0, 0, 0"
                    Text="Description"/>
@@ -22,6 +23,20 @@
                    FontSize="12"
                    Margin="10, 0, 0, 0"
                    Text="Author"/>
+        <TextBlock Grid.Column="4"
+                   FontSize="12"
+                   Margin="10, 0, 0, 0"
+                   Text="Game Version"/>
+        <TextBlock Grid.Column="5"
+                   FontSize="12"
+                   HorizontalAlignment="Center"
+                   Margin="10, 0, 0, 0"
+                   Text="Info"/>
+        <TextBlock Grid.Column="6"
+                   FontSize="12"
+                   HorizontalAlignment="Center"
+                   Margin="10, 0, 0, 0"
+                   Text="Uninstall"/>
       </Grid>
     </Border>
     <Border Background="#1E1E1E"
@@ -32,16 +47,58 @@
         <TextBlock Margin="10"
                    Text="Utility"/>
         <ListBox Items="{Binding UtilityModList}">
+          <ListBox.Styles>
+            <Style Selector="Button">
+              <Setter Property="Background" Value="Transparent"/>
+            </Style>
+          </ListBox.Styles>
           <ListBox.ItemTemplate>
             <DataTemplate>
-              <Grid ColumnDefinitions="250, 400, 200">
-                <TextBlock Grid.Column="0"
-                           Margin="20, 0, 0, 0"
-                           Text="{Binding Name}"/>
+              <Grid ColumnDefinitions="20, 300, 850, 250, 100, 100, 100">
+                <CheckBox Grid.Column="0"
+                          Margin="0, 0, 0, 0"
+                          Width="10"
+                          Name="{Binding Name}"/>
                 <TextBlock Grid.Column="1"
-                           Text="{Binding Description}"/>
+                           Margin="20, 0, 0, 0"
+                           VerticalAlignment="Center"
+                           Text="{Binding Name}"/>
                 <TextBlock Grid.Column="2"
+                           VerticalAlignment="Center"
+                           Text="{Binding Description}"/>
+                <TextBlock Grid.Column="3"
+                           VerticalAlignment="Center"
                            Text="{Binding Author}"/>
+                <TextBlock Grid.Column="4"
+                           VerticalAlignment="Center"
+                           Foreground="{Binding GameVersionColor}"
+                           Text="{Binding LastValidGameVersion}"/>
+                <Border Background="#2E2E2E"
+                        BorderBrush="#696969"
+                        BorderThickness="1"
+                        HorizontalAlignment="Center"
+                        Grid.Column="5">
+                  <Button Width="80"
+                          Height="30"
+                          Command="{Binding MoreInfo}">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="White">Mod Info</TextBlock>
+                  </Button>
+                </Border>
+                <Border Background="#2E2E2E"
+                        BorderBrush="#696969"
+                        BorderThickness="1"
+                        HorizontalAlignment="Center"
+                        Grid.Column="6">
+                  <Button Width="80"
+                          Height="30"
+                          Command="{Binding UninstallMod}">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="White">Uninstall</TextBlock>
+                  </Button>
+                </Border>
               </Grid>
             </DataTemplate>
           </ListBox.ItemTemplate>

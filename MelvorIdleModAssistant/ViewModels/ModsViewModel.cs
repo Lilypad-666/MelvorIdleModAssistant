@@ -1,4 +1,5 @@
-﻿using MelvorIdleModAssistant.Models;
+﻿using Avalonia.Media;
+using MelvorIdleModAssistant.Models;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;

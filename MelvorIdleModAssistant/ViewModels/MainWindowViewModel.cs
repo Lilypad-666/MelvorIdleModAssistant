@@ -26,9 +26,9 @@ namespace MelvorIdleModAssistant.ViewModels {
         //The command that navigates a user to the settings page.
         public ReactiveCommand<Unit, IRoutableViewModel> NavigateToSettings { get; }
 
-        public ModsViewModel modsVM;
-        public InfoViewModel infoVM;
-        public SettingsViewModel settingsVM;
+        public static ModsViewModel modsVM;
+        public static InfoViewModel infoVM;
+        public static SettingsViewModel settingsVM;
 
         //Whether the user has accepted the terms
         public bool AcceptedTerms
@@ -54,8 +54,8 @@ namespace MelvorIdleModAssistant.ViewModels {
         }
 
         //The program's current version
-        private Version programVersion;
-        public Version ProgramVersion
+        private static Version programVersion;
+        public static Version ProgramVersion
         {
             get
             {
@@ -69,8 +69,8 @@ namespace MelvorIdleModAssistant.ViewModels {
         }
 
         //The game's current version
-        private Version gameVersion;
-        public Version GameVersion
+        private static Version gameVersion;
+        public static Version GameVersion
         {
             get
             {
