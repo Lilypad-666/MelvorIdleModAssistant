@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MelvorIdleModAssistant.ViewModels;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,14 @@ namespace MelvorIdleModAssistant.Models {
     public class ModModel {
         public static List<Mod> ModList = new List<Mod>();
 
-        public static void LoadModList() {
+        public static void LoadModList(ModsViewModel ModsVM) {
             var modListXml = (new WebClient()).DownloadString("https://raw.githubusercontent.com/Lilypad-666/MelvorIdleModAssistant/main/MelvorIdleModAssistant/ModList.xml");
             ModList = XmlModel.XmlDeserializeFromString<List<Mod>>(modListXml);
+
+            ModsVM.OnPropertyChanged("ModList");
         }
 
-        private static async void DownloadGitRepository(string repo) {
+        private static async void DownloadGitHubRepository(string repo) {
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MelvorIdleModAssistant", "1.0.0"));
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";

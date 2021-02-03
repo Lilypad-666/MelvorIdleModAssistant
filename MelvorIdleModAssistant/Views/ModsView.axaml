@@ -2,18 +2,53 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:DataTemplate.Views.ModsView"
              x:Class="MelvorIdleModAssistant.Views.ModsView">
+  <Grid RowDefinitions="25, Auto"
+        Margin="15">
+    <Border Background="#2E2E2E"
+            BorderBrush="#696969"
+            BorderThickness="1"
+            Grid.Row="0">
+      <Grid ColumnDefinitions="250, 400, 200"
+            VerticalAlignment="Center">
+        <TextBlock Grid.Column="0"
+                   FontSize="12"
+                   Margin="10, 0, 0, 0"
+                   Text="Name"/>
+        <TextBlock Grid.Column="1"
+                   FontSize="12"
+                   Margin="10, 0, 0, 0"
+                   Text="Description"/>
+        <TextBlock Grid.Column="3"
+                   FontSize="12"
+                   Margin="10, 0, 0, 0"
+                   Text="Author"/>
+      </Grid>
+    </Border>
+    <Border Background="#1E1E1E"
+            BorderBrush="#696969"
+            BorderThickness="1"
+            Grid.Row="1">
+      <StackPanel>
+        <TextBlock Margin="10"
+                   Text="Utility"/>
+        <ListBox Items="{Binding UtilityModList}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid ColumnDefinitions="250, 400, 200">
+                <TextBlock Grid.Column="0"
+                           Margin="20, 0, 0, 0"
+                           Text="{Binding Name}"/>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding Description}"/>
+                <TextBlock Grid.Column="2"
+                           Text="{Binding Author}"/>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </StackPanel>
+    </Border>
 
-  <ListBox Items="{Binding ModList}">
-    <ListBox.ItemTemplate>
-      <DataTemplate>
-        <Grid>
-          <TextBlock Grid.Row="0"
-                     Grid.Column="0"
-                      Text="{Binding Name}"/>
-        </Grid>
-      </DataTemplate>
-    </ListBox.ItemTemplate>
-  </ListBox>
 
-
+  </Grid>
 </UserControl>
