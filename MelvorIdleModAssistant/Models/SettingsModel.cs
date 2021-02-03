@@ -25,9 +25,9 @@ namespace MelvorIdleModAssistant.Models {
         }
 
         private static void EnsureDataDirectoryExists() {
-            FileInfo dataPath = new FileInfo(SettingsFile);
-            if (!dataPath.Directory.Exists) {
-                Directory.CreateDirectory(dataPath.DirectoryName);
+            DirectoryInfo dataFolder = new DirectoryInfo(@".\Data");
+            if (!dataFolder.Exists) {
+                Directory.CreateDirectory(@".\Data");
             }
         }
     }

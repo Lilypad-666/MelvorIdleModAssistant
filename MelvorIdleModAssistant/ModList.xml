@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfMod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Mod>
+    <Name>Melvor-ETA</Name>
+    <Description>Displays estimated times for skills</Description>
+    <Author>GMiclotte</Author>
+    <Source>https://github.com/gmiclotte/Melvor-ETA</Source>
+    <Category>Utility</Category>
+    <LastValidGameVersion>0.18.2</LastValidGameVersion>
+    <MainFile>time-remaining.js</MainFile>
+    <Installed>false</Installed>
+  </Mod>
+  <Mod>
+    <Name>XP/h</Name>
+    <Description>Displays XP/h for farming and combat</Description>
+    <Author>Visua#9999</Author>
+    <Source>https://greasyfork.org/scripts/409902-melvor-idle-xp-h/code/Melvor%20Idle%20-%20XPh.user.js</Source>
+    <Category>Utility</Category>
+    <LastValidGameVersion>0.18.2</LastValidGameVersion>
+    <MainFile>Melvor%20Idle%20-%20XPh.user.js</MainFile>
+    <Installed>false</Installed>
+  </Mod>
+  <Mod>
+    <Name>Combat Simulator Reloaded</Name>
+    <Description>Simulates combat</Description>
+    <Author>GMiclotte</Author>
+    <Source>https://github.com/visua0/Melvor-Idle-Combat-Simulator-Reloaded</Source>
+    <Category>Utility</Category>
+    <LastValidGameVersion>0.18.2</LastValidGameVersion>
+    <MainFile>Extension\Sources\contentScript.js</MainFile>
+    <ExtraCommands>$(document.head).append(`&lt;link rel="stylesheet" href="${chrome.runtime.getURL('styles/mainStyle.css')}"&gt;`)</ExtraCommands>
+    <Installed>false</Installed>
+  </Mod>
+</ArrayOfMod>

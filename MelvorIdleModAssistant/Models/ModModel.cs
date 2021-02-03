@@ -9,28 +9,14 @@ using System.Xml.Serialization;
 
 namespace MelvorIdleModAssistant.Models {
     public class ModModel {
-        public static List<Mod> ModList = new List<Mod> {
-            new Mod("Melvor-ETA", new Version("0.18.2"), "time-remaining.js", false)
-        };
+        public static List<Mod> ModList = new List<Mod>();
 
-        //The path to the settings file
-        private const string ModListFile = @".\Data\ModList.xml";
-
-        public static void SaveMods() {
-            string settingsXML = XmlModel.XmlSerializeToString(ModList);
-            File.WriteAllText(ModListFile, settingsXML);
-        }
-
-        public static List<Mod> LoadActiveMods() {
-            EnsureDataDirectoryExists();
-
-            string[] files = Directory.GetFiles(ModListFile);
-
-            foreach (string file in files) {
-                Console.Log(file);
-            }
-
-            return null;
+        public static void LoadModList() {
+#if DEBUG
+            CreateModListFile();
+#else
+            
+#endif
         }
 
         private static async void DownloadGitRepository(string repo) {
@@ -54,15 +40,23 @@ namespace MelvorIdleModAssistant.Models {
             }
         }
 
-        private static void EnsureDataDirectoryExists() {
-            FileInfo dataPath = new FileInfo(ModListFile);
-            if (!dataPath.Directory.Exists) {
-                Directory.CreateDirectory(dataPath.DirectoryName);
-            }
+        private static void CreateModListFile() {
+            List<Mod> NewModList = new List<Mod> {
+                new Mod("Melvor-ETA", "Displays estimated times for skills", "GMiclotte", "https://github.com/gmiclotte/Melvor-ETA", Mod.ModCategories.Utility, "0.18.2", "time-remaining.js"),
+                new Mod("XP/h", "Displays XP/h for farming and combat", "Visua#9999", "https://greasyfork.org/scripts/409902-melvor-idle-xp-h/code/Melvor%20Idle%20-%20XPh.user.js", Mod.ModCategories.Utility, "0.18.2", "Melvor%20Idle%20-%20XPh.user.js"),
+                new Mod("Combat Simulator Reloaded", "Simulates combat", "GMiclotte", "https://github.com/visua0/Melvor-Idle-Combat-Simulator-Reloaded", Mod.ModCategories.Utility, "0.18.2", "Extension\\Sources\\contentScript.js", new List<string> { "$(document.head).append(`<link rel=\"stylesheet\" href=\"${chrome.runtime.getURL('styles/mainStyle.css')}\">`)" }),
+            };
+
+            string modListXML = XmlModel.XmlSerializeToString(NewModList);
+            File.WriteAllText(@".\ModList.xml", modListXML);
         }
     }
 
     public class Mod {
+        public enum ModCategories {
+            Utility = 0
+        }
+
         //The name of the mod
         private string name;
         [XmlElement("Name")]
@@ -78,10 +72,70 @@ namespace MelvorIdleModAssistant.Models {
             }
         }
 
+        //Description of the mod
+        private string description;
+        [XmlElement("Description")]
+        public string Description
+        {
+            get
+            {
+                return description;
+            }
+            set
+            {
+                description = value;
+            }
+        }
+
+        //Author of the mod
+        private string author;
+        [XmlElement("Author")]
+        public string Author
+        {
+            get
+            {
+                return author;
+            }
+            set
+            {
+                author = value;
+            }
+        }
+
+        //Link to the mod
+        private string source;
+        [XmlElement("Source")]
+        public string Source
+        {
+            get
+            {
+                return source;
+            }
+            set
+            {
+                source = value;
+            }
+        }
+
+        //What category is the mod
+        private ModCategories category;
+        [XmlElement("Category")]
+        public ModCategories Category
+        {
+            get
+            {
+                return category;
+            }
+            set
+            {
+                category = value;
+            }
+        }
+
         //The last known valid game version
-        private Version lastValidGameVersion;
+        private string lastValidGameVersion;
         [XmlElement("LastValidGameVersion")]
-        public Version LastValidVersion
+        public string LastValidVersion
         {
             get
             {
@@ -138,27 +192,16 @@ namespace MelvorIdleModAssistant.Models {
             }
         }
 
-        //Version of the installed mod
-        private bool enabled;
-        [XmlElement("Enabled")]
-        public bool Enabled
-        {
-            get
-            {
-                return enabled;
-            }
-            set
-            {
-                enabled = value;
-            }
-        }
+        public Mod() { }
 
-        public Mod(string Name, Version LastValidVersion, string MainFile, bool Enabled = false, List<string> ExtraCommands = null) {
+        public Mod(string Name, string Description, string Author, string Source, ModCategories Category, string LastValidVersion, string MainFile, List<string> ExtraCommands = null) {
             this.Name = Name;
+            this.Description = Description;
+            this.Author = Author;
+            this.Source = Source;
+            this.Category = Category;
             this.LastValidVersion = LastValidVersion;
             this.MainFile = MainFile;
-
-            this.Enabled = Enabled;
 
             if (ExtraCommands == null) {
                 this.ExtraCommands = new List<string>();
