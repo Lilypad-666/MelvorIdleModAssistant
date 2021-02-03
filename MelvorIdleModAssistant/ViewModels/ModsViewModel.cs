@@ -18,6 +18,7 @@ namespace MelvorIdleModAssistant.ViewModels {
             HostScreen = MainWindowVM;
 
             ModModel.LoadModList();
+            ModModel.CreateModListFile();
 
         }
     }

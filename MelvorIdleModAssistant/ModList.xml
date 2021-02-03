@@ -8,7 +8,6 @@
     <Category>Utility</Category>
     <LastValidGameVersion>0.18.2</LastValidGameVersion>
     <MainFile>time-remaining.js</MainFile>
-    <Installed>false</Installed>
   </Mod>
   <Mod>
     <Name>XP/h</Name>
@@ -18,7 +17,6 @@
     <Category>Utility</Category>
     <LastValidGameVersion>0.18.2</LastValidGameVersion>
     <MainFile>Melvor%20Idle%20-%20XPh.user.js</MainFile>
-    <Installed>false</Installed>
   </Mod>
   <Mod>
     <Name>Combat Simulator Reloaded</Name>
@@ -29,6 +27,5 @@
     <LastValidGameVersion>0.18.2</LastValidGameVersion>
     <MainFile>Extension\Sources\contentScript.js</MainFile>
     <ExtraCommands>$(document.head).append(`&lt;link rel="stylesheet" href="${chrome.runtime.getURL('styles/mainStyle.css')}"&gt;`)</ExtraCommands>
-    <Installed>false</Installed>
   </Mod>
 </ArrayOfMod>

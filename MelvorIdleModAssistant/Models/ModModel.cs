@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Xml.Serialization;
@@ -12,11 +13,8 @@ namespace MelvorIdleModAssistant.Models {
         public static List<Mod> ModList = new List<Mod>();
 
         public static void LoadModList() {
-#if DEBUG
-            CreateModListFile();
-#else
-            
-#endif
+            var modListXml = (new WebClient()).DownloadString("https://raw.githubusercontent.com/Lilypad-666/MelvorIdleModAssistant/main/MelvorIdleModAssistant/ModList.xml");
+            ModList = XmlModel.XmlDeserializeFromString<List<Mod>>(modListXml);
         }
 
         private static async void DownloadGitRepository(string repo) {
@@ -40,7 +38,7 @@ namespace MelvorIdleModAssistant.Models {
             }
         }
 
-        private static void CreateModListFile() {
+        public static void CreateModListFile() {
             List<Mod> NewModList = new List<Mod> {
                 new Mod("Melvor-ETA", "Displays estimated times for skills", "GMiclotte", "https://github.com/gmiclotte/Melvor-ETA", Mod.ModCategories.Utility, "0.18.2", "time-remaining.js"),
                 new Mod("XP/h", "Displays XP/h for farming and combat", "Visua#9999", "https://greasyfork.org/scripts/409902-melvor-idle-xp-h/code/Melvor%20Idle%20-%20XPh.user.js", Mod.ModCategories.Utility, "0.18.2", "Melvor%20Idle%20-%20XPh.user.js"),
@@ -174,21 +172,6 @@ namespace MelvorIdleModAssistant.Models {
             set
             {
                 extraCommands = value;
-            }
-        }
-
-        //Whether the mod is currently installed
-        private bool installed;
-        [XmlElement("Installed")]
-        public bool Installed
-        {
-            get
-            {
-                return installed;
-            }
-            set
-            {
-                installed = value;
             }
         }
 
