@@ -1,0 +1,165 @@
+<Window x:Class="MelvorIdleModAssistant.Views.MainWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:rxui="http://reactiveui.net"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DesignWidth="1200" d:DesignHeight="800"
+        CanResize="False"
+        Title="Melvor Idle Mod Assistant">
+
+  <Grid ColumnDefinitions="Auto, *" RowDefinitions="*, Auto">
+    <!-- Start of Top Left Panel -->
+    <Grid Grid.Column="0"
+          Grid.Row="0"
+          RowDefinitions="*, Auto">
+      <StackPanel Grid.Column="0"
+                  Grid.Row="0"
+                  Orientation="Vertical">
+        <!-- Start of Info Button -->
+        <Border Background="#2E2E2E"
+                BorderBrush="#696969"
+                BorderThickness="1"
+                Margin="15, 15, 15, 10">
+          <Button Width="80"
+                  Height="80"
+                  Background="Transparent"
+                  Command="{Binding NavigateToInfo}">
+            <StackPanel>
+              <DrawingPresenter Width="40"
+                                Height="40"
+                                Margin="6">
+                <DrawingPresenter.Drawing>
+                  <GeometryDrawing Brush="#AEAEAE"
+                                   Geometry="F1M469.334014892578,-490.6669921875L469.334014892578,-234.667007446289 554.6669921875,-234.667007446289 554.6669921875,-490.6669921875 469.334014892578,-490.6669921875z M469.334014892578,-661.3330078125L469.334014892578,-576 554.6669921875,-576 554.6669921875,-661.3330078125 469.334014892578,-661.3330078125z M512,-874.6669921875C747.263977050781,-874.6669921875 938.6669921875,-683.263977050781 938.6669921875,-448 938.6669921875,-212.735992431641 747.263977050781,-21.3330001831055 512,-21.3329925537109 276.735992431641,-21.3330001831055 85.3330001831055,-212.735992431641 85.3330001831055,-448 85.3330001831055,-683.263977050781 276.735992431641,-874.6669921875 512,-874.6669921875z"/>
+                </DrawingPresenter.Drawing>
+              </DrawingPresenter>
+              <TextBlock TextAlignment="Center">Info</TextBlock>
+            </StackPanel>
+          </Button>
+        </Border>
+        <!-- End of Info Button -->
+
+        <!-- Start of Mods Button -->
+        <Border x:Name="ModsButton"
+                Background="#2E2E2E"
+                BorderBrush="#696969"
+                BorderThickness="1"
+                Margin="15, 10, 15, 10"
+                IsVisible="{Binding AcceptedTerms}">
+          <Button Width="80"
+                  Height="80"
+                  Background="Transparent"
+                  Command="{Binding NavigateToMods}">
+            <StackPanel>
+              <DrawingPresenter Width="40"
+                                Height="40"
+                                Margin="6">
+                <DrawingPresenter.Drawing>
+                  <GeometryDrawing Brush="#AEAEAE"
+                                   Geometry="F1M384,-576L384,-320 640,-320 640,-576 384,-576z M341.334014892578,-874.666015625L426.6669921875,-874.666015625 426.6669921875,-746.666015625 597.333984375,-746.666015625 597.333984375,-874.666015625 682.6669921875,-874.666015625 682.6669921875,-746.666015625 725.333984375,-746.666015625C772.43798828125,-746.666015625,810.6669921875,-708.43701171875,810.6669921875,-661.3330078125L810.6669921875,-618.666015625 938.6669921875,-618.666015625 938.6669921875,-533.3330078125 810.6669921875,-533.3330078125 810.6669921875,-362.665985107422 938.6669921875,-362.665985107422 938.6669921875,-277.3330078125 810.6669921875,-277.3330078125 810.6669921875,-234.666000366211C810.6669921875,-187.561996459961,772.43798828125,-149.332992553711,725.333984375,-149.332992553711L682.6669921875,-149.332992553711 682.6669921875,-21.3329944610596 597.333984375,-21.3329944610596 597.333984375,-149.332992553711 426.6669921875,-149.332992553711 426.6669921875,-21.3329944610596 341.334014892578,-21.3329944610596 341.334014892578,-149.332992553711 298.6669921875,-149.332992553711C251.563003540039,-149.332992553711,213.333999633789,-187.561996459961,213.333999633789,-234.666000366211L213.333999633789,-277.3330078125 85.3339920043945,-277.3330078125 85.3339920043945,-362.665985107422 213.333999633789,-362.665985107422 213.333999633789,-533.3330078125 85.3339920043945,-533.3330078125 85.3339920043945,-618.666015625 213.333999633789,-618.666015625 213.333999633789,-661.3330078125C213.333999633789,-708.43701171875,251.563003540039,-746.666015625,298.6669921875,-746.666015625L341.334014892578,-746.666015625 341.334014892578,-874.666015625z"/>
+                </DrawingPresenter.Drawing>
+              </DrawingPresenter>
+              <TextBlock TextAlignment="Center">Mods</TextBlock>
+            </StackPanel>
+          </Button>
+        </Border>
+        <!-- End of Mods Button -->
+
+        <!-- Start of Settings Button -->
+        <Border Background="#2E2E2E"
+                BorderBrush="#696969"
+                BorderThickness="1"
+                Margin="15, 10, 15, 10"
+                IsVisible="{Binding AcceptedTerms}">
+          <Button Width="80"
+                  Height="80"
+                  Background="Transparent"
+                  Command="{Binding NavigateToSettings}">
+            <StackPanel>
+              <DrawingPresenter Width="40"
+                                Height="40"
+                                Margin="6">
+                <DrawingPresenter.Drawing>
+                  <GeometryDrawing Brush="#AEAEAE"
+                                   Geometry="F1M512,-618.6669921875C417.877014160156,-618.6669921875 341.3330078125,-542.122985839844 341.3330078125,-448 341.3330078125,-353.877014160156 417.877014160156,-277.3330078125 512,-277.3330078125 606.122985839844,-277.3330078125 682.6669921875,-353.877014160156 682.6669921875,-448 682.6669921875,-542.122985839844 606.122985839844,-618.6669921875 512,-618.6669921875z M426.6669921875,-874.6669921875L597.333984375,-874.6669921875C620.929016113281,-874.6669921875,640.0009765625,-855.552001953125,640.0009765625,-832L640.0009765625,-763.818969726563C668.758972167969,-751.914978027344,696.065002441406,-735.872985839844,720.81201171875,-716.3740234375L780.375,-750.763000488281C800.77001953125,-762.581970214844,826.882019042969,-755.585021972656,838.658020019531,-735.190002441406L923.991027832031,-587.56298828125C935.767028808594,-567.252990722656,928.726989746094,-541.013000488281,908.418029785156,-529.280029296875L849.879028320313,-495.445007324219C852.182983398438,-479.700988769531 853.335021972656,-463.829010009766 853.335021972656,-448 853.335021972656,-432.170989990234 852.182983398438,-416.299011230469 849.963989257813,-400.554992675781L908.502990722656,-366.720001220703C928.768981933594,-354.985992431641,935.809020996094,-328.746002197266,924.075988769531,-308.43701171875L838.742980957031,-160.809997558594C827.008972167969,-140.544006347656,800.81201171875,-133.503997802734,780.460021972656,-145.236999511719L720.89697265625,-179.626007080078C696.107971191406,-160.128005981445,668.801025390625,-144.128005981445,640.044006347656,-132.180999755859L640.044006347656,-63.9999961853027C640.044006347656,-40.4480018615723,620.971984863281,-21.3330001831055,597.377014160156,-21.3329982757568L426.709991455078,-21.3329982757568C403.114990234375,-21.3330001831055,384.042999267578,-40.4480018615723,384.042999267578,-63.9999961853027L384.042999267578,-132.180999755859C355.286010742188,-144.126998901367,327.93701171875,-160.126998901367,303.190002441406,-179.626007080078L243.626998901367,-145.236999511719C223.231994628906,-133.417999267578,197.119995117188,-140.414993286133,185.343994140625,-160.809997558594L100.011001586914,-308.43701171875C88.2350006103516,-328.747009277344,95.2750015258789,-354.986999511719,115.583992004395,-366.720001220703L174.123001098633,-400.554992675781C171.819000244141,-416.299011230469 170.667007446289,-432.170989990234 170.667007446289,-448 170.667007446289,-463.829010009766 171.819000244141,-479.700988769531 174.123001098633,-495.445007324219L115.583992004395,-529.280029296875C95.318000793457,-541.013977050781,88.2779998779297,-567.254028320313,100.011001586914,-587.56298828125L185.343994140625,-735.190002441406C197.119995117188,-755.583984375,223.190002441406,-762.581970214844,243.626998901367,-750.763000488281L303.147003173828,-716.3740234375C327.936004638672,-735.872009277344,355.243011474609,-751.872009277344,384,-763.818969726563L384,-832C384,-855.552001953125,403.071990966797,-874.6669921875,426.6669921875,-874.6669921875z"/>
+                </DrawingPresenter.Drawing>
+              </DrawingPresenter>
+              <TextBlock TextAlignment="Center">Settings</TextBlock>
+            </StackPanel>
+          </Button>
+        </Border>
+        <!-- End of Settings Button -->
+      </StackPanel>
+      <StackPanel Grid.Column="0"
+               Grid.Row="1"
+               VerticalAlignment="Center">
+        <TextBlock FontSize="14"
+                   HorizontalAlignment="Center"
+                   Text="Game Version">
+        </TextBlock>
+        <TextBlock FontSize="14"
+                   HorizontalAlignment="Center"
+                   Text="{Binding GameVersion}">
+        </TextBlock>
+      </StackPanel>
+    </Grid>
+    <!-- End of Top Left Panel -->
+
+    <!-- Start of Top Right Panel -->
+    <rxui:RoutedViewHost Grid.Column="1"
+                         Grid.Row="0"
+                         Router="{Binding Router}"/>
+    <!-- End of Top Right Panel -->
+
+    <!-- Start of Bottom Left Panel -->
+    <StackPanel Grid.Column="0"
+                Grid.Row="1"
+                VerticalAlignment="Center">
+      <TextBlock FontSize="14"
+                 HorizontalAlignment="Center"
+                 Text="Version">
+      </TextBlock>
+      <TextBlock FontSize="14"
+                 HorizontalAlignment="Center"
+                 Text="{Binding ProgramVersion}">
+      </TextBlock>
+    </StackPanel>
+    <!-- End of Bottom Left Panel -->
+
+    <!-- Start of Bottom Right Panel -->
+    <Grid Grid.Column="1"
+          Grid.Row="1"
+          ColumnDefinitions="*, Auto">
+      <Border Background="#2E2E2E"
+        BorderBrush="#696969"
+        BorderThickness="1"
+        Margin="0, 15, 15, 15"
+        Grid.Column="0">
+        <TextBlock FontSize="40"
+                   Height="50"
+                   VerticalAlignment="Center"
+                   Padding="15, 0, 0, 0"
+                   Foreground="#A8A8A8"
+                   Text="{Binding LastConsoleLine}">
+        </TextBlock>
+      </Border>
+      <!-- Start of Info Button -->
+      <!-- <Border Background="#2E2E2E"
+              BorderBrush="#696969"
+              BorderThickness="1"
+              Margin="10, 15, 15, 15"
+              Grid.Column="1">
+        <Button Width="120"
+                Height="40"
+                Background="Transparent"
+                Command="{Binding NavigateToInfo}">
+          <TextBlock FontWeight="Light" VerticalAlignment="Center" HorizontalAlignment="Center">Update Mods</TextBlock>
+        </Button>
+      </Border> -->
+      <!-- End of Info Button -->
+    </Grid>
+    <!-- End of Bottom Right Panel -->
+  </Grid>
+</Window>

@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:DataTemplate.Views.ModsView"
+             x:Class="MelvorIdleModAssistant.Views.ModsView">
+
+  <ListBox Items="{Binding ModList}">
+    <ListBox.ItemTemplate>
+      <DataTemplate>
+        <Grid>
+          <TextBlock Grid.Row="0"
+                     Grid.Column="0"
+                      Text="{Binding Name}"/>
+        </Grid>
+      </DataTemplate>
+    </ListBox.ItemTemplate>
+  </ListBox>
+
+
+</UserControl>

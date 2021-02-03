@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MelvorIdleModAssistant.Views.InfoView">
+  <StackPanel HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+    <TextBlock Text="Melvor Idle Mod Assistant"
+               HorizontalAlignment="Center"
+               FontSize="34"
+               Padding="5"/>
+    <TextBlock Text="Please read this page carefully!"
+               HorizontalAlignment="Center"
+               FontSize="26"
+               FontWeight="Bold"
+               Padding="5"/>
+    <TextBlock Text="By using this program, you agree that you have read and agree to the following:"
+               HorizontalAlignment="Center"
+               FontSize="22"
+               Padding="10"/>
+    <TextBlock Text="     The developer of this program is not responsible for corrupted saves, make backups!"
+               HorizontalAlignment="Left"
+               FontSize="18"
+               Padding="5"/>
+    <TextBlock Text="     Mods are made by other users for free, in our free time. Please be patient with us."
+               HorizontalAlignment="Left"
+               FontSize="18"
+               Padding="5"/>
+    <StackPanel Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+      <Border Background="#2E2E2E"
+              BorderBrush="#696969"
+              BorderThickness="1"
+              CornerRadius="4"
+              Margin="15, 20, 15, 10">
+        <Button Width="100"
+                Height="40"
+                Background="Transparent"
+                Command="{Binding AgreeToTerms}">
+          <TextBlock TextAlignment="Center"
+                     VerticalAlignment="Center"
+                     Foreground="White">
+            I Agree
+          </TextBlock>
+        </Button>
+      </Border>
+      <Border Background="#2E2E2E"
+              BorderBrush="#696969"
+              BorderThickness="1"
+              CornerRadius="4"
+              Margin="15, 20, 15, 10">
+        <Button Width="100"
+                Height="40"
+                Background="Transparent"
+                Command="{Binding DisagreeToTerms}">
+          <TextBlock TextAlignment="Center"
+                     VerticalAlignment="Center"
+                     Foreground="White">
+            I Disagree
+          </TextBlock>
+        </Button>
+      </Border>
+    </StackPanel>
+  </StackPanel>
+</UserControl>
