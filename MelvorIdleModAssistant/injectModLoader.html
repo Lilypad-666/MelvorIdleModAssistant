@@ -1,0 +1,32 @@
+﻿function injectModLoader() {
+	var script = document.createElement("script");
+
+	script.textContent = `
+	var gameLoadedInterval;
+
+	function loadMods() {
+		gameLoadedInterval = setInterval(checkGameLoaded, 200);
+	};
+
+	function checkGameLoaded() {
+		if (typeof confirmedLoaded !== "undefined" && confirmedLoaded && !currentlyCatchingUp) {
+			try {
+				console.log("Loading Melvor Idle Mod Assistant Mods");
+
+				require('fs').readFile('extensions/melvor-eta/time-remaining.js', 'utf8', (err, data) => { eval(data); });
+
+				//Stops checking if the game is loaded
+				clearInterval(gameLoadedInterval);
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	}
+	`;
+
+	//Inject the function into the game
+	document.getElementById("game").contentWindow.document.body.appendChild(script);
+
+	//Starts the interval to check for the game loaded
+	document.getElementById("game").contentWindow.loadMods();
+}

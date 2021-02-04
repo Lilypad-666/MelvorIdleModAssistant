@@ -1,3 +1,4 @@
+using HtmlAgilityPack;
 using MelvorIdleModAssistant.Models;
 using ReactiveUI;
 using System;
@@ -127,11 +128,106 @@ namespace MelvorIdleModAssistant.ViewModels {
 
             foreach (Mod mod in checkedMods) {
                 InstallUpdateMod(mod);
-                mod.IsChecked = false;
             }
+
+            UpdateIndexFile();
         }
 
-        public void InstallUpdateMod(Mod mod) {
+        private void UpdateIndexFile() {
+            string gameIndexFilePath = settingsVM.GamePath + @"\index.html";
+            string defaultIndexFilePath = @".\index.html";
+
+            File.Copy(defaultIndexFilePath, gameIndexFilePath, true);
+
+            HtmlDocument index = new HtmlDocument();
+            index.Load(gameIndexFilePath);
+
+            //Add the onload to the iframe
+            //index.GetElementbyId("game").SetAttributeValue("onload", "injectModLoader()");
+
+            //HtmlNode injectModLoader = GetInjectModLoaderNode();
+
+            index.GetElementbyId("injectModLoaderScript").InnerHtml = GetInjectModLoaderHtml();
+
+            //index.DocumentNode.FirstChild.AppendChild(injectModLoader);
+
+            index.Save(gameIndexFilePath);
+        }
+
+        private string GetInjectModLoaderHtml() {
+            string injectModLoaderHtml = @"
+            function injectModLoader() {
+		        console.log(window.jQuery);
+		        var script = document.createElement(""script"");
+
+
+                script.textContent = `
+		        var gameLoadedInterval;
+
+                    function loadMods() {
+                        gameLoadedInterval = setInterval(checkGameLoaded, 200);
+                    };
+
+                    function checkGameLoaded() {
+                        if (typeof confirmedLoaded !== ""undefined"" && confirmedLoaded && !currentlyCatchingUp) {
+                            try {
+                                console.log(""Loading Melvor Idle Mod Assistant Mods"");
+
+                                var fs = require(""fs"");
+
+            ";
+
+            foreach (string modName in settingsVM.InstalledMods) {
+                Mod? mod = modsVM.UtilityModList.Find((mod) => {
+                    return mod.Name == modName;
+                });
+
+                if (mod != null) {
+                    string fileSafeModName = mod.Name;
+
+                    foreach (var c in Path.GetInvalidFileNameChars()) {
+                        fileSafeModName = fileSafeModName.Replace(c, '-');
+                    }
+
+                    //require('fs').readFile('extensions/melvor-eta/time-remaining.js', 'utf8', (err, data) => { eval(data); });
+
+                    injectModLoaderHtml += @"//Loading for " + mod.Name + @"
+                    fs.readFile(""mods/" + fileSafeModName + @"/" + mod.MainFile + @""", ""utf8"", (err, data) => { eval(data); });";
+
+                    foreach (string extraCommand in mod.ExtraCommands) {
+                        injectModLoaderHtml += extraCommand + @"
+                        ";
+                    }
+
+                    injectModLoaderHtml += @"
+                    ";
+                }
+            }
+
+            injectModLoaderHtml += @"
+
+            //Stops checking if the game is loaded
+                            clearInterval(gameLoadedInterval);
+                        }
+                        catch (e) {
+                            console.error(e);
+                        }
+                    }
+                }
+		    `;
+
+                //Inject the function into the game
+                document.getElementById(""game"").contentWindow.document.body.appendChild(script);
+
+                //Starts the interval to check for the game loaded
+                document.getElementById(""game"").contentWindow.loadMods();
+            }
+            ";
+
+            return injectModLoaderHtml;
+        }
+
+        private void InstallUpdateMod(Mod mod) {
             if (!settingsVM.InstalledMods.Contains(mod.Name)) {
                 settingsVM.InstalledMods.Add(mod.Name);
             }
@@ -144,8 +240,11 @@ namespace MelvorIdleModAssistant.ViewModels {
 
             string path = Path.Combine(settingsVM.GamePath, "mods", fileSafeModName);
 
-            if (Directory.Exists(path)) {
-                Directory.Delete(path, true);
+            DirectoryInfo dir = new DirectoryInfo(path);
+
+            if (dir.Exists) {
+                SetAttributesNormal(dir);
+                dir.Delete(true);
             }
 
             Directory.CreateDirectory(path);
@@ -153,6 +252,17 @@ namespace MelvorIdleModAssistant.ViewModels {
             ModModel.DownloadSource(mod.Source, path);
 
             mod.Installed = true;
+        }
+
+        public void SetAttributesNormal(DirectoryInfo dir) {
+            foreach (DirectoryInfo subDir in dir.GetDirectories()) {
+                SetAttributesNormal(subDir);
+
+            }
+
+            foreach (FileInfo file in dir.GetFiles()) {
+                file.Attributes = FileAttributes.Normal;
+            }
         }
     }
 }

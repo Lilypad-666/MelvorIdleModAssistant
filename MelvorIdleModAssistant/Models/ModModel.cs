@@ -31,42 +31,15 @@ namespace MelvorIdleModAssistant.Models {
             }
         }
 
-        private static async void DownloadGitHubRepository(string repo, string path) {
-            //HttpClient httpClient = new HttpClient();
-            //httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MelvorIdleModAssistant", "1.0.0"));
-            //string contentsUrl = "https://api.github.com/repos/" + repo + "/contents";
-            //string contentsJson = await httpClient.GetStringAsync(contentsUrl);
-            //JArray contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
-
-            //using (WebClient client = new WebClient()) {
-            //    foreach (var file in contents) {
-            //        string fileType = (string)file["type"];
-
-            //        if (fileType == "dir") {
-            //            var directoryContentsUrl = (string)file["url"];
-            //            // use this URL to list the contents of the folder
-            //            Console.Log($"DIR: {directoryContentsUrl}");
-            //        }
-
-            //        if (fileType == "file") {
-            //            string downloadUrl = (string)file["download_url"];
-            //            //https://raw.githubusercontent.com/ + repo + /fileName
-            //            string fileName = downloadUrl.Replace("https://raw.githubusercontent.com/" + repo + "/", "");
-            //            fileName = fileName.Substring(fileName.IndexOf('/'));
-            //            Console.Log(fileName);
-            //            client.DownloadFile(downloadUrl, path + fileName);
-            //        }
-            //    }
-            //}
-
-            Repository.Clone(repo, path);
+        private static async void DownloadGitHubRepository(string source, string path) {
+            Repository.Clone(source, path);
         }
 
         public static void CreateModListFile() {
             List<Mod> NewModList = new List<Mod> {
                 new Mod("Melvor-ETA", "Displays estimated times for skills", "GMiclotte", "https://github.com/gmiclotte/Melvor-ETA", Mod.ModCategories.Utility, "0.18.2", "time-remaining.js"),
                 new Mod("XP/h", "Displays XP/h for farming and combat", "Visua#9999", "https://greasyfork.org/scripts/409902-melvor-idle-xp-h/code/Melvor%20Idle%20-%20XPh.user.js", Mod.ModCategories.Utility, "0.18.2", "Melvor%20Idle%20-%20XPh.user.js"),
-                new Mod("Combat Simulator Reloaded", "Simulates combat", "GMiclotte", "https://github.com/visua0/Melvor-Idle-Combat-Simulator-Reloaded", Mod.ModCategories.Utility, "0.18.2", "Extension\\Sources\\contentScript.js", new List<string> { "$(document.head).append(`<link rel=\"stylesheet\" href=\"${chrome.runtime.getURL('styles/mainStyle.css')}\">`)" }),
+                new Mod("Combat Simulator Reloaded", "Simulates combat", "GMiclotte", "https://github.com/visua0/Melvor-Idle-Combat-Simulator-Reloaded", Mod.ModCategories.Utility, "0.18.2", "Extension\\Sources\\contentScript.js", new List<string> { @"$(document.head).append(`<link rel=""stylesheet"" href=""${chrome.runtime.getURL('styles/mainStyle.css')}\"">`)" }),
             };
 
             string modListXML = XmlModel.XmlSerializeToString(NewModList);
@@ -295,14 +268,13 @@ namespace MelvorIdleModAssistant.Models {
                 // If no associated application/json MimeType is found xdg-open opens retrun error
                 // but it tries to open it anyway using the console editor (nano, vim, other..)
                 ShellExec($"xdg-open {url}", waitForExit: false);
-            }
-            else {
+            } else {
                 using (Process process = Process.Start(new ProcessStartInfo {
                     FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? url : "open",
                     Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? $"-e {url}" : "",
                     CreateNoWindow = true,
                     UseShellExecute = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                })) ;
+                }));
             }
         }
 
