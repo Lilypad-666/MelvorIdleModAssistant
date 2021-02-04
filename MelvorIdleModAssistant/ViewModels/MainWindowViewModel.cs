@@ -110,8 +110,6 @@ namespace MelvorIdleModAssistant.ViewModels {
 
             Router.Navigate.Execute(infoVM);
 
-
-
             ModModel.CreateModListFile();
         }
 
@@ -145,13 +143,14 @@ namespace MelvorIdleModAssistant.ViewModels {
             }
 
             string path = Path.Combine(settingsVM.GamePath, "mods", fileSafeModName);
+
             if (Directory.Exists(path)) {
-                Directory.Delete(path);
+                Directory.Delete(path, true);
             }
 
             Directory.CreateDirectory(path);
 
-
+            ModModel.DownloadSource(mod.Source, path);
 
             mod.Installed = true;
         }

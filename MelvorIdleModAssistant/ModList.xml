@@ -4,7 +4,6 @@
     <Name>Melvor-ETA</Name>
     <Description>Displays estimated times for skills</Description>
     <Author>GMiclotte</Author>
-    <SourceSite>GitHub</SourceSite>
     <Source>gmiclotte/Melvor-ETA</Source>
     <Category>Utility</Category>
     <LastValidGameVersion>0.18.2</LastValidGameVersion>
@@ -14,7 +13,6 @@
     <Name>XP/h</Name>
     <Description>Displays XP/h for farming and combat</Description>
     <Author>Visua#9999</Author>
-    <SourceSite>GreasyFork</SourceSite>
     <Source>https://greasyfork.org/scripts/409902-melvor-idle-xp-h/code/Melvor%20Idle%20-%20XPh.user.js</Source>
     <Category>Utility</Category>
     <LastValidGameVersion>0.18.2</LastValidGameVersion>
@@ -24,8 +22,7 @@
     <Name>Combat Simulator Reloaded</Name>
     <Description>Simulates combat</Description>
     <Author>GMiclotte</Author>
-    <SourceSite>GitHub</SourceSite>
-    <Source>visua0/Melvor-Idle-Combat-Simulator-Reloaded</Source>
+    <Source>https://github.com/visua0/Melvor-Idle-Combat-Simulator-Reloaded</Source>
     <Category>Utility</Category>
     <LastValidGameVersion>0.18.2</LastValidGameVersion>
     <MainFile>Extension\Sources\contentScript.js</MainFile>

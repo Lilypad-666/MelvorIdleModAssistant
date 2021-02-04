@@ -23,39 +23,49 @@ namespace MelvorIdleModAssistant.Models {
             ModsVM.OnPropertyChanged("ModList");
         }
 
-        public static void DownloadSource(Mod.ModSources sourceType, string source, string path) {
-            if (sourceType == Mod.ModSources.GitHub) {
+        public static void DownloadSource(string source, string path) {
+
+            if (source.Contains("github", StringComparison.InvariantCultureIgnoreCase)) {
                 DownloadGitHubRepository(source, path);
             }
         }
 
         private static async void DownloadGitHubRepository(string repo, string path) {
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MelvorIdleModAssistant", "1.0.0"));
-            var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
-            var contentsJson = await httpClient.GetStringAsync(contentsUrl);
-            var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
-            foreach (var file in contents) {
-                var fileType = (string)file["type"];
-                //if (fileType == "dir") {
-                //    var directoryContentsUrl = (string)file["url"];
-                //    // use this URL to list the contents of the folder
-                //    System.Console.WriteLine($"DIR: {directoryContentsUrl}");
-                //}
-                //else
-                if (fileType == "file") {
-                    var downloadUrl = (string)file["download_url"];
-                    // use this URL to download the contents of the file
-                    System.Console.WriteLine($"DOWNLOAD: {downloadUrl}");
-                }
-            }
+            //HttpClient httpClient = new HttpClient();
+            //httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MelvorIdleModAssistant", "1.0.0"));
+            //string contentsUrl = "https://api.github.com/repos/" + repo + "/contents";
+            //string contentsJson = await httpClient.GetStringAsync(contentsUrl);
+            //JArray contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
+
+            //using (WebClient client = new WebClient()) {
+            //    foreach (var file in contents) {
+            //        string fileType = (string)file["type"];
+
+            //        if (fileType == "dir") {
+            //            var directoryContentsUrl = (string)file["url"];
+            //            // use this URL to list the contents of the folder
+            //            Console.Log($"DIR: {directoryContentsUrl}");
+            //        }
+
+            //        if (fileType == "file") {
+            //            string downloadUrl = (string)file["download_url"];
+            //            //https://raw.githubusercontent.com/ + repo + /fileName
+            //            string fileName = downloadUrl.Replace("https://raw.githubusercontent.com/" + repo + "/", "");
+            //            fileName = fileName.Substring(fileName.IndexOf('/'));
+            //            Console.Log(fileName);
+            //            client.DownloadFile(downloadUrl, path + fileName);
+            //        }
+            //    }
+            //}
+
+
         }
 
         public static void CreateModListFile() {
             List<Mod> NewModList = new List<Mod> {
-                new Mod("Melvor-ETA", "Displays estimated times for skills", "GMiclotte", Mod.ModSources.GitHub, "gmiclotte/Melvor-ETA", Mod.ModCategories.Utility, "0.18.2", "time-remaining.js"),
-                new Mod("XP/h", "Displays XP/h for farming and combat", "Visua#9999", Mod.ModSources.GreasyFork, "https://greasyfork.org/scripts/409902-melvor-idle-xp-h/code/Melvor%20Idle%20-%20XPh.user.js", Mod.ModCategories.Utility, "0.18.2", "Melvor%20Idle%20-%20XPh.user.js"),
-                new Mod("Combat Simulator Reloaded", "Simulates combat", "GMiclotte", Mod.ModSources.GitHub, "visua0/Melvor-Idle-Combat-Simulator-Reloaded", Mod.ModCategories.Utility, "0.18.2", "Extension\\Sources\\contentScript.js", new List<string> { "$(document.head).append(`<link rel=\"stylesheet\" href=\"${chrome.runtime.getURL('styles/mainStyle.css')}\">`)" }),
+                new Mod("Melvor-ETA", "Displays estimated times for skills", "GMiclotte", "gmiclotte/Melvor-ETA", Mod.ModCategories.Utility, "0.18.2", "time-remaining.js"),
+                new Mod("XP/h", "Displays XP/h for farming and combat", "Visua#9999", "https://greasyfork.org/scripts/409902-melvor-idle-xp-h/code/Melvor%20Idle%20-%20XPh.user.js", Mod.ModCategories.Utility, "0.18.2", "Melvor%20Idle%20-%20XPh.user.js"),
+                new Mod("Combat Simulator Reloaded", "Simulates combat", "GMiclotte", "https://github.com/visua0/Melvor-Idle-Combat-Simulator-Reloaded", Mod.ModCategories.Utility, "0.18.2", "Extension\\Sources\\contentScript.js", new List<string> { "$(document.head).append(`<link rel=\"stylesheet\" href=\"${chrome.runtime.getURL('styles/mainStyle.css')}\">`)" }),
             };
 
             string modListXML = XmlModel.XmlSerializeToString(NewModList);
@@ -66,11 +76,6 @@ namespace MelvorIdleModAssistant.Models {
     public class Mod {
         public enum ModCategories {
             Utility = 0,
-        }
-
-        public enum ModSources {
-            GitHub = 0,
-            GreasyFork = 1,
         }
 
         //The name of the mod
@@ -115,21 +120,6 @@ namespace MelvorIdleModAssistant.Models {
             set
             {
                 author = value;
-            }
-        }
-
-        //Link to the mod
-        private ModSources sourceSite;
-        [XmlElement("SourceSite")]
-        public ModSources SourceSite
-        {
-            get
-            {
-                return sourceSite;
-            }
-            set
-            {
-                sourceSite = value;
             }
         }
 
@@ -280,11 +270,10 @@ namespace MelvorIdleModAssistant.Models {
 
         public Mod() { }
 
-        public Mod(string Name, string Description, string Author, ModSources SourceSite, string Source, ModCategories Category, string LastValidGameVersion, string MainFile, List<string> ExtraCommands = null) {
+        public Mod(string Name, string Description, string Author, string Source, ModCategories Category, string LastValidGameVersion, string MainFile, List<string> ExtraCommands = null) {
             this.Name = Name;
             this.Description = Description;
             this.Author = Author;
-            this.SourceSite = SourceSite;
             this.Source = Source;
             this.Category = Category;
             this.LastValidGameVersion = LastValidGameVersion;
