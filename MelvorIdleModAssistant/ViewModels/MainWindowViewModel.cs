@@ -3,6 +3,7 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Net;
 using System.Reactive;
 using System.Text.RegularExpressions;
@@ -108,12 +109,51 @@ namespace MelvorIdleModAssistant.ViewModels {
             );
 
             Router.Navigate.Execute(infoVM);
+
+
+
+            ModModel.CreateModListFile();
         }
 
         public void OnPropertyChanged(string propertyName) {
             if (PropertyChanged != null) {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public void InstallUpdateMods() {
+            List<Mod> checkedMods = modsVM.UtilityModList.FindAll((mod) =>
+            {
+                return mod.IsChecked;
+            });
+
+            foreach (Mod mod in checkedMods) {
+                InstallUpdateMod(mod);
+                mod.IsChecked = false;
+            }
+        }
+
+        public void InstallUpdateMod(Mod mod) {
+            if (!settingsVM.InstalledMods.Contains(mod.Name)) {
+                settingsVM.InstalledMods.Add(mod.Name);
+            }
+
+            string fileSafeModName = mod.Name;
+
+            foreach (var c in Path.GetInvalidFileNameChars()) {
+                fileSafeModName = fileSafeModName.Replace(c, '-');
+            }
+
+            string path = Path.Combine(settingsVM.GamePath, "mods", fileSafeModName);
+            if (Directory.Exists(path)) {
+                Directory.Delete(path);
+            }
+
+            Directory.CreateDirectory(path);
+
+
+
+            mod.Installed = true;
         }
     }
 }

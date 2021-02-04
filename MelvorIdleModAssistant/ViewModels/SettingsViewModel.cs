@@ -35,11 +35,23 @@ namespace MelvorIdleModAssistant.ViewModels {
             }
         }
 
-        public List<string> ModList
+        public List<string> InstalledMods
         {
             get
             {
                 return settings.InstalledMods;
+            }
+        }
+
+        public string GamePath
+        {
+            get
+            {
+                return settings.GamePath;
+            }
+            set
+            {
+                settings.GamePath = value;
             }
         }
     }

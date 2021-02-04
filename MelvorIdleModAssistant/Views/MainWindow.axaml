@@ -157,7 +157,7 @@
         <Button Width="120"
                 Height="50"
                 Background="Transparent"
-                Command="{Binding InstallUpdateSelectedMods}">
+                Command="{Binding InstallUpdateMods}">
           <StackPanel VerticalAlignment="Center"
                        HorizontalAlignment="Center">
             <TextBlock HorizontalAlignment="Center"

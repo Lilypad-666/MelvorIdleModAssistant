@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -30,6 +32,19 @@ namespace MelvorIdleModAssistant.Models {
                 Directory.CreateDirectory(@".\Data");
             }
         }
+        public static string GetGamePath() {
+            return GetGamePathWindows();
+        }
+
+        private static string GetGamePathWindows() {
+            RegistryKey fileKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 1267910");
+
+            if (fileKey != null) {   
+                return (string)fileKey.GetValue("InstallLocation");
+            }
+
+            return string.Empty;
+        }
     }
 
     public class Settings {
@@ -59,6 +74,21 @@ namespace MelvorIdleModAssistant.Models {
             set
             {
                 installedMods = value;
+                SettingsModel.SaveSettings(this);
+            }
+        }
+
+        private string gamePath = SettingsModel.GetGamePath();
+        [XmlElement("GamePath")]
+        public string GamePath
+        {
+            get
+            {
+                return gamePath;
+            }
+            set
+            {
+                gamePath = value;
                 SettingsModel.SaveSettings(this);
             }
         }
