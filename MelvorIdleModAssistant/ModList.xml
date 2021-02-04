@@ -4,7 +4,7 @@
     <Name>Melvor-ETA</Name>
     <Description>Displays estimated times for skills</Description>
     <Author>GMiclotte</Author>
-    <Source>gmiclotte/Melvor-ETA</Source>
+    <Source>https://github.com/gmiclotte/Melvor-ETA</Source>
     <Category>Utility</Category>
     <LastValidGameVersion>0.18.2</LastValidGameVersion>
     <MainFile>time-remaining.js</MainFile>

@@ -110,7 +110,7 @@ namespace MelvorIdleModAssistant.ViewModels {
 
             Router.Navigate.Execute(infoVM);
 
-            ModModel.CreateModListFile();
+            //ModModel.CreateModListFile();
         }
 
         public void OnPropertyChanged(string propertyName) {

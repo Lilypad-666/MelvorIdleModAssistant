@@ -1,4 +1,5 @@
 ﻿using Avalonia.Media;
+using LibGit2Sharp;
 using MelvorIdleModAssistant.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -58,12 +59,12 @@ namespace MelvorIdleModAssistant.Models {
             //    }
             //}
 
-
+            Repository.Clone(repo, path);
         }
 
         public static void CreateModListFile() {
             List<Mod> NewModList = new List<Mod> {
-                new Mod("Melvor-ETA", "Displays estimated times for skills", "GMiclotte", "gmiclotte/Melvor-ETA", Mod.ModCategories.Utility, "0.18.2", "time-remaining.js"),
+                new Mod("Melvor-ETA", "Displays estimated times for skills", "GMiclotte", "https://github.com/gmiclotte/Melvor-ETA", Mod.ModCategories.Utility, "0.18.2", "time-remaining.js"),
                 new Mod("XP/h", "Displays XP/h for farming and combat", "Visua#9999", "https://greasyfork.org/scripts/409902-melvor-idle-xp-h/code/Melvor%20Idle%20-%20XPh.user.js", Mod.ModCategories.Utility, "0.18.2", "Melvor%20Idle%20-%20XPh.user.js"),
                 new Mod("Combat Simulator Reloaded", "Simulates combat", "GMiclotte", "https://github.com/visua0/Melvor-Idle-Combat-Simulator-Reloaded", Mod.ModCategories.Utility, "0.18.2", "Extension\\Sources\\contentScript.js", new List<string> { "$(document.head).append(`<link rel=\"stylesheet\" href=\"${chrome.runtime.getURL('styles/mainStyle.css')}\">`)" }),
             };
@@ -204,7 +205,7 @@ namespace MelvorIdleModAssistant.Models {
         {
             get
             {
-                Version modValidVersion = new Version(LastValidGameVersion);
+                System.Version modValidVersion = new System.Version(LastValidGameVersion);
                 if (modValidVersion >= MainWindowViewModel.GameVersion) {
                     return Brushes.LightGreen;
                 }
